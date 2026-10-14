@@ -1,0 +1,6 @@
+{
+  // Browser code: DOM APIs, no Node.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": { "lib": ["ES2022", "DOM", "DOM.Iterable"], "types": [] },
+  "include": ["client", "shared"]
+}

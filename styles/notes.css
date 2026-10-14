@@ -1,0 +1,25 @@
+/* Callouts from engine/plugins/notes.ts: > Note: / > Tip: / > Warning: */
+.content section.note {
+  margin: 1.4em 0;
+  padding: 0.6em 1.1em;
+  border-left: 4px solid var(--note-border);
+  border-radius: 0 8px 8px 0;
+  background: color-mix(in srgb, var(--note-border) 8%, var(--bg));
+}
+.content section.note > :first-child {
+  margin-top: 0.3em;
+}
+.content section.note > :last-child {
+  margin-bottom: 0.3em;
+}
+.content section.note-tip {
+  border-left-color: var(--tip-border);
+  background: color-mix(in srgb, var(--tip-border) 8%, var(--bg));
+}
+.content section.note-warning {
+  border-left-color: var(--warning-border);
+  background: color-mix(in srgb, var(--warning-border) 10%, var(--bg));
+}
+.note-label {
+  font-weight: 700;
+}

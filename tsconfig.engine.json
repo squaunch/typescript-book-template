@@ -1,0 +1,6 @@
+{
+  // Build-time code: Node APIs, no DOM.
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": { "lib": ["ES2022"], "types": ["node"] },
+  "include": ["engine", "shared", "plugins", "book.config.ts"]
+}

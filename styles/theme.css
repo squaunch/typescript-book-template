@@ -1,0 +1,119 @@
+/* Every color in the book comes from these variables. Text/background pairs
+   meet WCAG AA (4.5:1) in every theme; re-check if you change them. Add a theme by adding a
+   [data-theme="name"] block and a button in engine/layout.ts. */
+
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #1f2328;
+  --muted: #59636e;
+  --border: #d8dee4;
+  --links: #0b63c5;
+  --accent: #0b63c5;
+  --accent-fg: #ffffff;
+  --sidebar-bg: #f6f8fa;
+  --sidebar-fg: #2f363d;
+  --sidebar-active: #0b63c5;
+  --code-bg: #f6f8fa;
+  --inline-code-bg: #eff1f3;
+  --quote-bg: #f6f8fa;
+  --quote-border: #d8dee4;
+  --note-border: #0b63c5;
+  --tip-border: #1a7f37;
+  --warning-border: #bf8700;
+  --popup-bg: #24292f;
+  --popup-fg: #ffffff;
+  --highlight: #fff3a8;
+  --mark: #ffe066;
+  --error-bg: #fff1f1;
+  --ok: #1a7f37;
+  --bad: #cf222e;
+  --shadow: 0 8px 24px rgba(31, 35, 40, 0.15);
+
+  /* Syntax highlighting */
+  --hl-keyword: #cf222e;
+  --hl-string: #0a3069;
+  --hl-number: #0550ae;
+  --hl-comment: #636c76;
+  --hl-title: #8250df;
+  --hl-type: #953800;
+  --hl-attr: #0550ae;
+  --hl-meta: #116329;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f1419;
+  --fg: #d6dbe0;
+  --muted: #8b949e;
+  --border: #30363d;
+  --links: #58a6ff;
+  --accent: #388bfd;
+  --accent-fg: #0f1419; /* dark text on the light-blue accent: 5.5:1 */
+  --sidebar-bg: #161b22;
+  --sidebar-fg: #c9d1d9;
+  --sidebar-active: #58a6ff;
+  --code-bg: #161b22;
+  --inline-code-bg: #1f262e;
+  --quote-bg: #161b22;
+  --quote-border: #30363d;
+  --note-border: #388bfd;
+  --tip-border: #3fb950;
+  --warning-border: #d29922;
+  --popup-bg: #2d333b;
+  --popup-fg: #e6edf3;
+  --highlight: #5a4a12;
+  --mark: #6b5500;
+  --error-bg: #3a1d1f;
+  --ok: #3fb950;
+  --bad: #f85149;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --hl-keyword: #ff7b72;
+  --hl-string: #a5d6ff;
+  --hl-number: #79c0ff;
+  --hl-comment: #8b949e;
+  --hl-title: #d2a8ff;
+  --hl-type: #ffa657;
+  --hl-attr: #79c0ff;
+  --hl-meta: #7ee787;
+}
+
+[data-theme="sepia"] {
+  color-scheme: light;
+  --bg: #f8f1e3;
+  --fg: #3b3228;
+  --muted: #6c6154;
+  --border: #e0d3bc;
+  --links: #9a4a12;
+  --accent: #9a4a12;
+  --accent-fg: #ffffff;
+  --sidebar-bg: #f0e6d2;
+  --sidebar-fg: #4a3f33;
+  --sidebar-active: #9a4a12;
+  --code-bg: #f0e6d2;
+  --inline-code-bg: #ebdfc8;
+  --quote-bg: #f0e6d2;
+  --quote-border: #e0d3bc;
+  --note-border: #9a4a12;
+  --tip-border: #4d7a2a;
+  --warning-border: #b07d12;
+  --popup-bg: #3b3228;
+  --popup-fg: #f8f1e3;
+  --highlight: #f5dd8a;
+  --mark: #f0c95a;
+  --error-bg: #f7dfd7;
+  --ok: #4d7a2a;
+  --bad: #b3261e;
+  --shadow: 0 8px 24px rgba(59, 50, 40, 0.18);
+
+  --hl-keyword: #a3301d;
+  --hl-string: #4d6a1a;
+  --hl-number: #8a4f0f;
+  --hl-comment: #6e6252;
+  --hl-title: #6b3fa0;
+  --hl-type: #8a4f0f;
+  --hl-attr: #2b5f8a;
+  --hl-meta: #4d6a1a;
+}

@@ -1,0 +1,85 @@
+# TEMPLATE: one example of every question type.
+# Every question needs a unique, permanent id (generate with `uuidgen`).
+# Prompts, answers and contexts are Markdown.
+
+# --- Multiple choice, one correct answer ---------------------------------
+[[questions]]
+id = "2c7619d2-a5a5-4f0f-8a28-707a64b6b9db"
+type = "MultipleChoice"
+prompt.prompt = """
+Placeholder question text. Supports **Markdown** and `code`.
+"""
+answer.answer = "Correct answer"
+prompt.distractors = ["Distractor 1", "Distractor 2", "Distractor 3"]
+context = """
+Explanation shown after answering.
+"""
+
+# --- Multiple choice, several correct answers (checkboxes) ---------------
+[[questions]]
+id = "eba08d1a-4f5a-4b76-9ae1-d9426f8a8c94"
+type = "MultipleChoice"
+prompt.prompt = """
+Select all that apply.
+"""
+answer.answer = ["Correct A", "Correct B"]
+prompt.distractors = ["Distractor 1", "Distractor 2"]
+prompt.sortAnswers = true
+context = """
+Explanation shown after answering.
+"""
+
+# --- Short answer (free text; case and spacing are ignored) --------------
+[[questions]]
+id = "029d7d19-15fe-48cf-b32d-57a2cd690d2d"
+type = "ShortAnswer"
+prompt.prompt = """
+Placeholder question. Write your answer as a single word.
+"""
+answer.answer = "placeholder"
+answer.alternatives = ["place-holder"]
+context = """
+Explanation shown after answering.
+"""
+
+# --- Code-reading question (replaces the Rust-only "Tracing" type) -------
+[[questions]]
+id = "cf464242-0ba9-45aa-a8e2-3b3375d7ca05"
+type = "MultipleChoice"
+prompt.prompt = """
+What does this program print?
+
+```ts
+const xs = [1, 2, 3];
+console.log(xs.map(x => x * 2).join(","));
+```
+"""
+answer.answer = "`2,4,6`"
+prompt.distractors = ["`1,2,3`", "`[2, 4, 6]`", "Nothing, it doesn't compile"]
+context = """
+`map` doubles each element and `join(",")` joins them with no spaces.
+"""
+
+# --- Multipart: several questions share one scenario ---------------------
+[multipart]
+scenario = """
+**Context:** Shared scenario text shown above each question in this group.
+"""
+
+[[questions]]
+id = "40ff8613-2c0e-47ce-b6d6-6bfaaaa509b2"
+multipart = "scenario"
+type = "MultipleChoice"
+prompt.prompt = "First question about the scenario."
+answer.answer = "Correct answer"
+prompt.distractors = ["Distractor"]
+context = "Explanation."
+
+[[questions]]
+id = "86208fd8-2cfe-4ba0-9c05-b54baed8c4e3"
+multipart = "scenario"
+type = "MultipleChoice"
+prompt.prompt = "Second question about the scenario."
+answer.answer = "Correct answer"
+prompt.distractors = ["Distractor"]
+context = "Explanation."

@@ -1,0 +1,215 @@
+.content code {
+  font-family: var(--mono);
+  font-size: 0.875em;
+}
+.content :not(pre) > code {
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+  background: var(--inline-code-bg);
+}
+
+pre.code-block {
+  position: relative;
+  margin: 1.2em 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  line-height: 1.5;
+}
+pre.code-block > code {
+  display: block;
+  background: none;
+  padding: 0;
+  white-space: pre;
+}
+pre.code-block > code[contenteditable] {
+  outline: none;
+  white-space: pre-wrap;
+}
+pre.editable {
+  border-style: dashed;
+}
+
+/* Buttons row: Copy / Run / Reset. Shown on hover (always on touch screens). */
+.code-buttons {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+pre.code-block:hover .code-buttons,
+pre.code-block:focus-within .code-buttons,
+pre[data-runnable] .code-buttons {
+  opacity: 1;
+}
+@media (hover: none) {
+  .code-buttons {
+    opacity: 1;
+  }
+}
+.code-button {
+  padding: 2px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--muted);
+  font: 0.75rem var(--sans);
+  cursor: pointer;
+}
+.code-button:hover {
+  color: var(--fg);
+  border-color: var(--muted);
+}
+.run-button {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Output of runnable blocks */
+.run-output {
+  margin: -0.8em 0 1.2em;
+  padding: 10px 16px;
+  border: 1px solid var(--border);
+  border-top: 0;
+  border-radius: 0 0 8px 8px;
+  background: var(--bg);
+  font: 0.85rem/1.5 var(--mono);
+  white-space: pre-wrap;
+  max-height: 24rem;
+  overflow: auto;
+}
+.run-output.running::before {
+  content: "Running…";
+  color: var(--muted);
+}
+.run-output.running:not(:empty)::before {
+  content: none;
+}
+.run-warn {
+  color: var(--warning-border);
+}
+.run-error {
+  color: var(--bad);
+}
+.run-note {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Code badges (client/badges.ts) */
+pre.does_not_compile,
+pre.throws,
+pre.not_desired_behavior {
+  background: var(--error-bg);
+}
+pre .badge {
+  position: absolute;
+  right: 8px;
+  bottom: 6px;
+  line-height: 0;
+}
+pre .badge img {
+  height: auto;
+}
+/* Keep code and buttons clear of the badge. */
+pre.code-block:has(.badge-small) {
+  padding-right: 3.2em;
+}
+pre.code-block:has(.badge-large) {
+  padding-right: 4.6em;
+}
+pre.code-block:has(.badge-small) > .code-buttons {
+  right: 2.8em;
+}
+pre .badge-small {
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+}
+pre .badge-small img {
+  width: 1.8em;
+}
+pre .badge-large img {
+  width: 3.2em;
+}
+
+/* Listings (engine/plugins/listing.ts) */
+figure.listing {
+  margin: 1.2em 0;
+}
+figure.listing .file-name {
+  display: block;
+  font: 600 0.8rem var(--mono);
+  color: var(--muted);
+}
+figure.listing pre.code-block {
+  margin: 0.3em 0;
+}
+figure.listing figcaption {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+figure.listing figcaption code {
+  font-weight: 400;
+}
+
+/* Syntax highlighting: highlight.js classes mapped to theme variables. */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-literal {
+  color: var(--hl-keyword);
+}
+.hljs-string,
+.hljs-regexp,
+.hljs-template-tag,
+.hljs-template-variable {
+  color: var(--hl-string);
+}
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet {
+  color: var(--hl-number);
+}
+.hljs-comment,
+.hljs-quote {
+  color: var(--hl-comment);
+  font-style: italic;
+}
+.hljs-title,
+.hljs-title.function_,
+.hljs-section {
+  color: var(--hl-title);
+}
+.hljs-type,
+.hljs-title.class_,
+.hljs-class .hljs-title {
+  color: var(--hl-type);
+}
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-property,
+.hljs-params {
+  color: var(--hl-attr);
+}
+.hljs-meta,
+.hljs-addition,
+.hljs-tag {
+  color: var(--hl-meta);
+}
+.hljs-deletion {
+  color: var(--bad);
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: 700;
+}
