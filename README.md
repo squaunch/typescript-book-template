@@ -1,4 +1,4 @@
-# Your Book Title
+# Book Template
 
 An interactive online book with quizzes, runnable code, reader highlights and
 notes, code badges, callouts, numbered listings and full-text search.
