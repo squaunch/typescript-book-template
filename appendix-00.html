@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" data-root="" data-features="quizzes highlights badges runnable search" data-page="appendix-00.html">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Appendix - Your Book Title</title>
+<meta name="description" content="One-line description, used for search engines and link previews.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=document.documentElement,t,s;try{t=localStorage.getItem("book-theme");s=localStorage.getItem("book-sidebar")}catch(e){}if(!t||t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t;if(s==="hidden")d.classList.add("sidebar-hidden")})();</script>
+<link rel="stylesheet" href="assets/book.css">
+<link rel="stylesheet" href="assets/feedback.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<nav id="sidebar" aria-label="Table of contents">
+  <div class="sidebar-scroll"><ol class="toc"><li><a href="how-to-use.html">How to Use This Book</a></li><li><a href="title-page.html">Title Page</a></li><li><a href="introduction.html">Introduction</a></li><li><a href="ch01-00-chapter-title.html"><strong>1.</strong> Chapter 1 Title</a><ol class="toc"><li><a href="ch01-01-section-title.html"><strong>1.1.</strong> Section 1.1 Title</a></li><li><a href="ch01-02-section-title.html"><strong>1.2.</strong> Section 1.2 Title</a></li></ol></li><li><a href="ch02-00-chapter-title.html"><strong>2.</strong> Chapter 2 Title</a></li><li><a href="appendix-00.html" class="active" aria-current="page"><strong>3.</strong> Appendix</a></li></ol></div>
+</nav>
+<div id="page">
+  <header id="menu-bar">
+    <div class="menu-left">
+      <button type="button" id="sidebar-toggle" class="icon-button" aria-label="Toggle table of contents" aria-controls="sidebar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <div class="theme-picker">
+        <button type="button" id="theme-toggle" class="icon-button" aria-label="Change theme" aria-controls="theme-list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+        <ul id="theme-list" aria-label="Theme" hidden>
+          <li><button type="button" data-theme="system" aria-pressed="false">System</button></li><li><button type="button" data-theme="light" aria-pressed="false">Light</button></li><li><button type="button" data-theme="dark" aria-pressed="false">Dark</button></li><li><button type="button" data-theme="sepia" aria-pressed="false">Sepia</button></li>
+        </ul>
+      </div>
+      <button type="button" id="search-toggle" class="icon-button" aria-label="Search (press /)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+    </div>
+    <a class="menu-title" href="index.html">Your Book Title</a>
+    <div class="menu-right">
+      
+    </div>
+  </header>
+  <div id="search" role="dialog" aria-modal="true" aria-label="Search" hidden>
+    <div class="search-box">
+      <input type="search" id="search-input" placeholder="Search this book…" autocomplete="off" aria-label="Search this book">
+      <p class="search-status" aria-live="polite"></p>
+      <ul id="search-results"></ul>
+    </div>
+  </div>
+  <main id="content" class="content">
+<h1 id="appendix"><a class="header" href="#appendix">Appendix</a></h1>
+<!-- Appendix content goes here. -->
+
+  </main>
+  <nav class="page-nav" aria-label="Page navigation"><a class="nav-prev" href="ch02-00-chapter-title.html" rel="prev" title="Chapter 2 Title" aria-label="Previous page: Chapter 2 Title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg><span>Chapter 2 Title</span></a><span></span></nav>
+</div>
+<script src="assets/book.js" defer></script>
+<script src="assets/feedback.js" defer></script>
+
+</body>
+</html>

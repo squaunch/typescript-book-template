@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" data-root="" data-features="quizzes highlights badges runnable search" data-page="ch01-01-section-title.html">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Section 1.1 Title - Your Book Title</title>
+<meta name="description" content="One-line description, used for search engines and link previews.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=document.documentElement,t,s;try{t=localStorage.getItem("book-theme");s=localStorage.getItem("book-sidebar")}catch(e){}if(!t||t==="system")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";d.dataset.theme=t;if(s==="hidden")d.classList.add("sidebar-hidden")})();</script>
+<link rel="stylesheet" href="assets/book.css">
+<link rel="stylesheet" href="assets/feedback.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<nav id="sidebar" aria-label="Table of contents">
+  <div class="sidebar-scroll"><ol class="toc"><li><a href="how-to-use.html">How to Use This Book</a></li><li><a href="title-page.html">Title Page</a></li><li><a href="introduction.html">Introduction</a></li><li><a href="ch01-00-chapter-title.html"><strong>1.</strong> Chapter 1 Title</a><ol class="toc"><li><a href="ch01-01-section-title.html" class="active" aria-current="page"><strong>1.1.</strong> Section 1.1 Title</a></li><li><a href="ch01-02-section-title.html"><strong>1.2.</strong> Section 1.2 Title</a></li></ol></li><li><a href="ch02-00-chapter-title.html"><strong>2.</strong> Chapter 2 Title</a></li><li><a href="appendix-00.html"><strong>3.</strong> Appendix</a></li></ol></div>
+</nav>
+<div id="page">
+  <header id="menu-bar">
+    <div class="menu-left">
+      <button type="button" id="sidebar-toggle" class="icon-button" aria-label="Toggle table of contents" aria-controls="sidebar"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+      <div class="theme-picker">
+        <button type="button" id="theme-toggle" class="icon-button" aria-label="Change theme" aria-controls="theme-list" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+        <ul id="theme-list" aria-label="Theme" hidden>
+          <li><button type="button" data-theme="system" aria-pressed="false">System</button></li><li><button type="button" data-theme="light" aria-pressed="false">Light</button></li><li><button type="button" data-theme="dark" aria-pressed="false">Dark</button></li><li><button type="button" data-theme="sepia" aria-pressed="false">Sepia</button></li>
+        </ul>
+      </div>
+      <button type="button" id="search-toggle" class="icon-button" aria-label="Search (press /)"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></button>
+    </div>
+    <a class="menu-title" href="index.html">Your Book Title</a>
+    <div class="menu-right">
+      
+    </div>
+  </header>
+  <div id="search" role="dialog" aria-modal="true" aria-label="Search" hidden>
+    <div class="search-box">
+      <input type="search" id="search-input" placeholder="Search this book…" autocomplete="off" aria-label="Search this book">
+      <p class="search-status" aria-live="polite"></p>
+      <ul id="search-results"></ul>
+    </div>
+  </div>
+  <main id="content" class="content">
+<h1 id="section-11-title"><a class="header" href="#section-11-title">Section 1.1 Title</a></h1>
+<!-- TEMPLATE: this page shows the syntax of every interactive element.
+     Replace each placeholder with your own content and delete what you don't use. -->
+<h2 id="subheading"><a class="header" href="#subheading">Subheading</a></h2>
+<p>Paragraph text with a <a href="ch01-02-section-title.html">link to another page</a>.</p>
+<section class="note note-note" role="note">
+<p><strong class="note-label">Note:</strong> Placeholder note text.</p>
+</section>
+<section class="note note-tip" role="note">
+<p><strong class="note-label">Tip:</strong> Placeholder tip text.</p>
+</section>
+<section class="note note-warning" role="note">
+<p><strong class="note-label">Warning:</strong> Placeholder warning text.</p>
+</section>
+<figure class="listing" id="listing-1-1">
+<span class="file-name">Filename: src/main.ts</span>
+<pre class="code-block" data-lang="ts"><code class="hljs language-ts"><span class="hljs-keyword">function</span> <span class="hljs-title function_">main</span>(<span class="hljs-params"></span>): <span class="hljs-built_in">void</span> {
+  <span class="hljs-comment">// placeholder</span>
+}</code></pre>
+<figcaption>Listing 1-1: Placeholder caption</figcaption>
+</figure>
+<pre data-runnable="const items = [3, 1, 2];
+const sorted = [...items].sort((a, b) =&gt; a - b);
+console.log(sorted);
+" class="code-block runnable" data-lang="ts"><code class="hljs language-ts"><span class="hljs-keyword">const</span> sorted = [...items].<span class="hljs-title function_">sort</span>(<span class="hljs-function">(<span class="hljs-params">a, b</span>) =&gt;</span> a - b);
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(sorted);</code></pre>
+<pre data-runnable="console.log(&quot;Readers can edit this and run it again.&quot;);
+" class="code-block runnable editable" data-lang="js"><code class="hljs language-js"><span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&quot;Readers can edit this and run it again.&quot;</span>);</code></pre>
+<pre class="code-block does_not_compile" data-lang="ts"><code class="hljs language-ts"><span class="hljs-keyword">const</span> <span class="hljs-attr">x</span>: <span class="hljs-built_in">number</span> = <span class="hljs-string">&quot;not a number&quot;</span>;</code></pre>
+<pre data-runnable="JSON.parse(&quot;{ not json&quot;);
+" class="code-block runnable throws" data-lang="ts"><code class="hljs language-ts"><span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-string">&quot;{ not json&quot;</span>);</code></pre>
+<pre class="code-block not_desired_behavior" data-lang="ts"><code class="hljs language-ts"><span class="hljs-keyword">const</span> total = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>].<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">sum, n</span>) =&gt;</span> sum - n, <span class="hljs-number">0</span>);</code></pre>
+<pre class="code-block" data-lang="ts"><code class="hljs language-ts"><span class="hljs-comment">// Code kept in a real file can be type-checked and tested with normal tooling,</span>
+<span class="hljs-comment">// then pulled into a page with {{#include}}.</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params"><span class="hljs-attr">name</span>: <span class="hljs-built_in">string</span></span>): <span class="hljs-built_in">string</span> {
+  <span class="hljs-keyword">return</span> <span class="hljs-string">`Hello, <span class="hljs-subst">${name}</span>!`</span>;
+}
+
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">greet</span>(<span class="hljs-string">&quot;reader&quot;</span>));</code></pre>
+<figure>
+<img src="img/placeholder.svg" alt="Placeholder" class="center" width="300" />
+<figcaption>Figure 1-1: Placeholder caption</figcaption>
+</figure>
+<div class="quiz" data-quiz="quizzes/ch01-01-section-title"><script type="application/json">{"name":"quizzes/ch01-01-section-title","version":"7e3b4b01c249","fullscreen":true,"cacheAnswers":true,"questions":[{"id":"2c7619d2-a5a5-4f0f-8a28-707a64b6b9db","prompt":"\u003cp>Placeholder question text. Supports \u003cstrong>Markdown\u003c/strong> and \u003ccode>code\u003c/code>.\u003c/p>\n","context":"\u003cp>Explanation shown after answering.\u003c/p>\n","type":"MultipleChoice","multi":false,"sortAnswers":false,"options":[{"html":"Correct answer","correct":true},{"html":"Distractor 1","correct":false},{"html":"Distractor 2","correct":false},{"html":"Distractor 3","correct":false}]},{"id":"eba08d1a-4f5a-4b76-9ae1-d9426f8a8c94","prompt":"\u003cp>Select all that apply.\u003c/p>\n","context":"\u003cp>Explanation shown after answering.\u003c/p>\n","type":"MultipleChoice","multi":true,"sortAnswers":true,"options":[{"html":"Correct A","correct":true},{"html":"Correct B","correct":true},{"html":"Distractor 1","correct":false},{"html":"Distractor 2","correct":false}]},{"id":"029d7d19-15fe-48cf-b32d-57a2cd690d2d","prompt":"\u003cp>Placeholder question. Write your answer as a single word.\u003c/p>\n","context":"\u003cp>Explanation shown after answering.\u003c/p>\n","type":"ShortAnswer","accepted":["placeholder","place-holder"],"display":"placeholder"},{"id":"cf464242-0ba9-45aa-a8e2-3b3375d7ca05","prompt":"\u003cp>What does this program print?\u003c/p>\n\u003cpre class=\"code-block\" data-lang=\"ts\">\u003ccode class=\"hljs language-ts\">\u003cspan class=\"hljs-keyword\">const\u003c/span> xs = [\u003cspan class=\"hljs-number\">1\u003c/span>, \u003cspan class=\"hljs-number\">2\u003c/span>, \u003cspan class=\"hljs-number\">3\u003c/span>];\n\u003cspan class=\"hljs-variable language_\">console\u003c/span>.\u003cspan class=\"hljs-title function_\">log\u003c/span>(xs.\u003cspan class=\"hljs-title function_\">map\u003c/span>(\u003cspan class=\"hljs-function\">\u003cspan class=\"hljs-params\">x\u003c/span> =&gt;\u003c/span> x * \u003cspan class=\"hljs-number\">2\u003c/span>).\u003cspan class=\"hljs-title function_\">join\u003c/span>(\u003cspan class=\"hljs-string\">&quot;,&quot;\u003c/span>));\u003c/code>\u003c/pre>\n","context":"\u003cp>\u003ccode>map\u003c/code> doubles each element and \u003ccode>join(&quot;,&quot;)\u003c/code> joins them with no spaces.\u003c/p>\n","type":"MultipleChoice","multi":false,"sortAnswers":false,"options":[{"html":"\u003ccode>2,4,6\u003c/code>","correct":true},{"html":"\u003ccode>1,2,3\u003c/code>","correct":false},{"html":"\u003ccode>[2, 4, 6]\u003c/code>","correct":false},{"html":"Nothing, it doesn’t compile","correct":false}]},{"id":"40ff8613-2c0e-47ce-b6d6-6bfaaaa509b2","prompt":"\u003cp>First question about the scenario.\u003c/p>\n","multipart":"\u003cp>\u003cstrong>Context:\u003c/strong> Shared scenario text shown above each question in this group.\u003c/p>\n","context":"\u003cp>Explanation.\u003c/p>\n","type":"MultipleChoice","multi":false,"sortAnswers":false,"options":[{"html":"Correct answer","correct":true},{"html":"Distractor","correct":false}]},{"id":"86208fd8-2cfe-4ba0-9c05-b54baed8c4e3","prompt":"\u003cp>Second question about the scenario.\u003c/p>\n","multipart":"\u003cp>\u003cstrong>Context:\u003c/strong> Shared scenario text shown above each question in this group.\u003c/p>\n","context":"\u003cp>Explanation.\u003c/p>\n","type":"MultipleChoice","multi":false,"sortAnswers":false,"options":[{"html":"Correct answer","correct":true},{"html":"Distractor","correct":false}]}]}</script><noscript>This quiz needs JavaScript.</noscript></div>
+
+  </main>
+  <nav class="page-nav" aria-label="Page navigation"><a class="nav-prev" href="ch01-00-chapter-title.html" rel="prev" title="Chapter 1 Title" aria-label="Previous page: Chapter 1 Title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg><span>Chapter 1 Title</span></a><a class="nav-next" href="ch01-02-section-title.html" rel="next" title="Section 1.2 Title" aria-label="Next page: Section 1.2 Title"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg><span>Section 1.2 Title</span></a></nav>
+</div>
+<script src="assets/book.js" defer></script>
+<script src="assets/feedback.js" defer></script>
+
+</body>
+</html>
