@@ -84,6 +84,18 @@ describe("code splitting", () => {
     expect(read(path.join(out, QUIZ_JS)).length).toBeGreaterThan(1000);
   });
 
+  it("links the KaTeX stylesheet when the only maths on a page is inside a quiz", async () => {
+    const { out, config } = makeBook({
+      "src/SUMMARY.md": "- [Quiz](quiz.md)\n",
+      "src/quiz.md": "# Quiz\n\n{{#quiz ../quizzes/q.toml}}\n",
+      "quizzes/q.toml":
+        '[[questions]]\nid = "118f46c5-fcb5-4c26-9b41-877f1256b2ab"\ntype = "ShortAnswer"\nprompt.prompt = "What is $1 + 1$?"\nanswer.answer = "2"\n',
+    });
+    await build(config);
+    expect(read(path.join(out, "quiz.html"))).toContain("assets/katex/katex.min.css");
+    expect(fs.existsSync(path.join(out, "assets/katex/katex.min.css"))).toBe(true);
+  });
+
   it("builds neither bundle for a book without quizzes or runnable code", async () => {
     const { out, config } = makeBook({ "src/SUMMARY.md": "- [Plain](plain.md)\n", "src/plain.md": "# Plain\n" });
     await build(config);

@@ -3,8 +3,11 @@ import katex from "katex";
 import { BookError, errorMessage, type Plugin } from "../config";
 import { escapeHtml, parseInfo, type Markdown, type RenderEnv } from "../markdown";
 
-/** Marks rendered maths in the page HTML; the build uses it to decide which pages need the KaTeX stylesheet. */
-export const MATH_MARKER = 'class="katex"';
+/**
+ * True when a rendered page contains maths, so the build links the KaTeX stylesheet from it.
+ * Maths in a quiz prompt sits inside the quiz's embedded JSON, where the quotes are escaped.
+ */
+export const hasMath = (html: string): boolean => /class=\\?"katex\\?"/.test(html);
 
 /**
  * Renders TeX to static HTML at build time. Pages ship KaTeX's markup (plus

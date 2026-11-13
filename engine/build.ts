@@ -13,7 +13,7 @@ import { createMarkdown, newEnv } from "./markdown";
 import { DIAGRAM_MARKER, diagramPlugin } from "./plugins/diagram";
 import { includePlugin } from "./plugins/include";
 import { listingPlugin } from "./plugins/listing";
-import { MATH_MARKER, mathPlugin } from "./plugins/math";
+import { hasMath, mathPlugin } from "./plugins/math";
 import { notesPlugin } from "./plugins/notes";
 import { quizPlugin } from "./plugins/quiz";
 import { runnablePlugin } from "./plugins/runnable";
@@ -135,7 +135,7 @@ export async function build(config: ResolvedConfig, opts: BuildOptions = {}): Pr
       }
       const html = hit.html;
       rendered.set(page.url, html);
-      if (html.includes(MATH_MARKER)) mathPages.add(page.url);
+      if (hasMath(html)) mathPages.add(page.url);
       if (html.includes(DIAGRAM_MARKER)) diagramPages.add(page.url);
       if (config.features.quizzes && html.includes(QUIZ_MARKER)) quizPages.add(page.url);
       if (config.features.runnable && html.includes(RUNNABLE_MARKER)) runnablePages.add(page.url);
