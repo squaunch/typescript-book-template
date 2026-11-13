@@ -13,6 +13,12 @@ export interface LayoutInput {
   next?: Page;
   /** Relative path from this page back to the output root, e.g. "" or "../". */
   root: string;
+  /** Stylesheets only this page needs (paths relative to the output root), e.g. KaTeX's. */
+  pageCss?: string[];
+  /** Classic scripts only this page needs (paths relative to the output root), e.g. the quiz bundle. */
+  pageJs?: string[];
+  /** ES module scripts only this page needs (paths relative to the output root), e.g. the diagram bundle. */
+  pageModules?: string[];
   dev: boolean;
 }
 
@@ -58,10 +64,12 @@ export function renderLayout(input: LayoutInput): string {
   const css = [
     `${root}assets/book.css`,
     ...(f.highlights ? [`${root}assets/feedback.css`] : []),
+    ...(input.pageCss ?? []).map(p => root + p),
     ...config.extraCss.map(p => root + p),
   ];
   const js = [
     `${root}assets/book.js`,
+    ...(input.pageJs ?? []).map(p => root + p),
     ...(f.highlights ? [`${root}assets/feedback.js`] : []),
     ...config.extraJs.map(p => root + p),
   ];
@@ -121,6 +129,7 @@ ${input.content}
   <nav class="page-nav" aria-label="Page navigation">${navLink(prev, "prev")}${navLink(next, "next")}</nav>
 </div>
 ${js.map(src => `<script src="${src}" defer></script>`).join("\n")}
+${(input.pageModules ?? []).map(src => `<script type="module" src="${root}${src}"></script>`).join("\n")}
 ${input.dev ? `<script>new EventSource("/__livereload").onmessage = () => location.reload();</script>` : ""}
 </body>
 </html>

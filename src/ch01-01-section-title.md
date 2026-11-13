@@ -58,3 +58,25 @@ const total = [1, 2, 3].reduce((sum, n) => sum - n, 0);
 </figure>
 
 {{#quiz ../quizzes/ch01-01-section-title.toml}}
+
+## Maths
+
+Inline maths sits in single dollars, like $a^2 + b^2 = c^2$; a literal dollar sign is written \$5.
+
+$$
+\text{recall} = \frac{TP}{TP + FN}
+$$
+
+```math
+\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+```
+
+## Diagrams
+
+```mermaid Placeholder caption for the diagram
+flowchart LR
+  A["Write Markdown"] --> B["Build"]
+  B --> C{"Checks pass?"}
+  C -- yes --> D["Publish"]
+  C -- no --> A
+```

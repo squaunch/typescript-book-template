@@ -16,6 +16,8 @@ export default defineConfig({
     badges: true,
     runnable: true,
     search: true,
+    math: true, // $…$ and $$…$$, rendered with KaTeX at build time
+    diagrams: true, // ```mermaid blocks
   },
 
   quiz: {

@@ -62,8 +62,8 @@ async function runDev(root: string, port: number, host: string) {
     }
     running = (async () => {
       try {
-        const { pages, ms } = await build(config, { dev: true, log: m => console.log(m) });
-        console.log(`Rebuilt ${pages} pages in ${ms} ms`);
+        const { pages, ms, rendered } = await build(config, { dev: true, log: m => console.log(m) });
+        console.log(`Rebuilt ${pages} pages in ${ms} ms (${rendered} re-rendered)`);
         for (const c of clients) c.write("data: reload\n\n");
       } catch (e) {
         report(e);

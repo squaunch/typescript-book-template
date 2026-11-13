@@ -1,7 +1,8 @@
 # Book Template
 
-An interactive online book with quizzes, runnable code, reader highlights and
-notes, code badges, callouts, numbered listings and full-text search.
+An interactive online book with quizzes, runnable code, maths (KaTeX),
+diagrams (Mermaid), reader highlights and notes, code badges, callouts,
+numbered listings and full-text search.
 
 Built with a small TypeScript static-site engine (`engine/`). **Only Node.js is
 needed; there's no Rust toolchain.** The source format matches mdBook
