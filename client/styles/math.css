@@ -46,6 +46,8 @@ figure.diagram .diagram-canvas svg {
 figure.diagram .diagram-source {
   min-height: 8em;
   margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
   text-align: left;
   font-size: 0.85em;
   opacity: 0.75;
