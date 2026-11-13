@@ -661,6 +661,9 @@ comes near the viewport, draws each diagram at that point, and redraws them
 when the reader changes theme (light → `default`, dark → `dark`, sepia →
 `neutral`).
 
+- **Click to enlarge:** clicking a drawn diagram (or pressing Enter or Space
+  when it has keyboard focus) opens it large in a modal. Clicking anywhere
+  outside the diagram, the × button or Escape closes it.
 - **No JavaScript, or a syntax error:** the source stays visible as text. For
   an error, the reason is shown above it.
 - **Printing** draws every diagram first.

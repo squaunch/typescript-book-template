@@ -10,7 +10,7 @@ const render = vi.fn(async (id: string, source: string) => {
 const initialize = vi.fn();
 vi.mock("mermaid", () => ({ default: { render, initialize } }));
 
-const { initDiagrams, mermaidTheme } = await import("../client/diagrams");
+const { initDiagrams, mermaidTheme, openZoom } = await import("../client/diagrams");
 
 const figure = (source: string) =>
   `<figure class="diagram" data-diagram="mermaid"><pre class="diagram-source"><code>${source}</code></pre></figure>`;
@@ -70,6 +70,50 @@ describe("diagrams (client)", () => {
     expect(initialize).toHaveBeenLastCalledWith(expect.objectContaining({ theme: "dark" }));
     expect(render).toHaveBeenCalledTimes(2);
     expect(render.mock.calls[1]![1]).toBe("flowchart LR; A --- B");
+  });
+
+  it("opens a drawn diagram larger on click and closes on a click outside it", async () => {
+    document.body.innerHTML = figure("flowchart LR; A --- B").replace("</figure>", "<figcaption>How it flows</figcaption></figure>");
+    stop = initDiagrams();
+    await settle();
+    const canvas = document.querySelector<HTMLElement>(".diagram-canvas")!;
+    expect(canvas.getAttribute("role")).toBe("button");
+    expect(canvas.getAttribute("tabindex")).toBe("0");
+    expect(canvas.getAttribute("aria-label")).toBe("How it flows: open larger");
+
+    canvas.querySelector("svg")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    const dialog = document.querySelector<HTMLDialogElement>("dialog.diagram-zoom")!;
+    expect(dialog).not.toBeNull();
+    expect(dialog.querySelector(".diagram-zoom-body svg")).not.toBeNull();
+    expect(dialog.querySelector(".diagram-zoom-caption")?.textContent).toBe("How it flows");
+    // The copy has its own id, so ids stay unique in the page.
+    const ids = [...document.querySelectorAll("svg")].map(s => s.id);
+    expect(new Set(ids).size).toBe(ids.length);
+
+    // A click on the enlarged diagram keeps it open; a click outside closes it.
+    dialog.querySelector(".diagram-zoom-body svg")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(document.querySelector("dialog.diagram-zoom")).not.toBeNull();
+    dialog.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    expect(document.querySelector("dialog.diagram-zoom")).toBeNull();
+  });
+
+  it("opens with Enter or Space, closes with the button, and never opens an undrawn diagram", async () => {
+    document.body.innerHTML = figure("flowchart LR; A --- B") + figure("broken");
+    stop = initDiagrams();
+    await settle();
+    const [good, bad] = [...document.querySelectorAll<HTMLElement>("figure.diagram")];
+    const canvas = good!.querySelector<HTMLElement>(".diagram-canvas")!;
+    canvas.dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
+    expect(document.querySelectorAll("dialog.diagram-zoom").length).toBe(1);
+    document.querySelector<HTMLElement>(".diagram-zoom-close")!.click();
+    expect(document.querySelector("dialog.diagram-zoom")).toBeNull();
+    canvas.dispatchEvent(new KeyboardEvent("keydown", { key: " ", bubbles: true }));
+    expect(document.querySelectorAll("dialog.diagram-zoom").length).toBe(1);
+
+    expect(openZoom(bad!)).toBeUndefined();
+    expect(bad!.querySelector(".diagram-canvas")?.hasAttribute("role")).toBe(false);
+    bad!.querySelector<HTMLElement>(".diagram-canvas")!.click();
+    expect(document.querySelectorAll("dialog.diagram-zoom").length).toBe(1);
   });
 
   it("does nothing on pages without diagrams", () => {

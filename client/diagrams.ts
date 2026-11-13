@@ -37,14 +37,81 @@ async function draw(figure: HTMLElement, theme: MermaidTheme) {
     const { svg } = await mermaid.render(`diagram-${++counter}`, source);
     canvas.innerHTML = svg;
     canvas.querySelector("svg")?.setAttribute("role", "img");
+    // Click (or Enter / Space) opens the diagram larger; see openZoom.
+    canvas.setAttribute("role", "button");
+    canvas.setAttribute("tabindex", "0");
+    canvas.setAttribute("aria-label", `${figure.querySelector("figcaption")?.textContent?.trim() || "Diagram"}: open larger`);
+    canvas.title = "Click to enlarge";
     figure.classList.add("diagram-ready");
     figure.classList.remove("diagram-error");
   } catch (e) {
     // Leave the source visible and say why, rather than showing a blank box.
+    for (const attr of ["role", "tabindex", "aria-label", "title"]) canvas.removeAttribute(attr);
     canvas.textContent = `This diagram could not be drawn: ${e instanceof Error ? e.message.split("\n")[0] : String(e)}`;
     figure.classList.add("diagram-error");
     figure.classList.remove("diagram-ready");
   }
+}
+
+/**
+ * Shows a drawn diagram enlarged in a modal dialog. Clicking anywhere outside
+ * the diagram, the close button, or pressing Escape closes it, and focus goes
+ * back to the diagram it was opened from.
+ */
+export function openZoom(figure: HTMLElement, doc: Document = document): HTMLDialogElement | undefined {
+  const svg = figure.querySelector<SVGElement>(".diagram-canvas svg");
+  if (!svg) return undefined;
+  doc.querySelector("dialog.diagram-zoom")?.remove();
+
+  const dialog = doc.createElement("dialog");
+  dialog.className = "diagram-zoom";
+  const caption = figure.querySelector("figcaption")?.textContent?.trim() ?? "";
+  dialog.setAttribute("aria-label", caption || "Diagram");
+
+  const close = doc.createElement("button");
+  close.type = "button";
+  close.className = "diagram-zoom-close";
+  close.setAttribute("aria-label", "Close");
+  close.textContent = "\u00d7";
+
+  const body = doc.createElement("div");
+  body.className = "diagram-zoom-body";
+  const copy = svg.cloneNode(true) as SVGElement;
+  // Ids must stay unique in the page; Mermaid scopes its styles by the svg's id, so rename it everywhere.
+  const id = svg.id;
+  if (id) body.innerHTML = copy.outerHTML.split(id).join(`${id}-zoom`);
+  else body.append(copy);
+  // Let CSS size it to the window instead of Mermaid's fixed max-width.
+  const shown = body.querySelector("svg");
+  shown?.removeAttribute("style");
+  shown?.removeAttribute("width");
+  shown?.removeAttribute("height");
+
+  dialog.append(close, body);
+  if (caption) {
+    const p = doc.createElement("p");
+    p.className = "diagram-zoom-caption";
+    p.textContent = caption;
+    dialog.append(p);
+  }
+
+  const shut = () => {
+    if (dialog.open && typeof dialog.close === "function") dialog.close();
+    else dialog.dispatchEvent(new Event("close"));
+  };
+  // A click on the diagram itself keeps it open (so text can be selected); anywhere else closes.
+  dialog.addEventListener("click", e => {
+    if (!(e.target as Element).closest(".diagram-zoom-body svg")) shut();
+  });
+  dialog.addEventListener("close", () => {
+    dialog.remove();
+    figure.querySelector<HTMLElement>(".diagram-canvas")?.focus();
+  });
+
+  doc.body.append(dialog);
+  if (typeof dialog.showModal === "function") dialog.showModal();
+  else dialog.setAttribute("open", "");
+  return dialog;
 }
 
 /** Starts drawing the page's diagrams. Returns a function that stops watching (used by tests). */
@@ -79,6 +146,21 @@ export function initDiagrams(doc: Document = document): () => void {
   } else {
     figures.forEach(show);
   }
+  // Enlarge on click, or Enter / Space when the diagram has keyboard focus.
+  const onClick = (e: Event) => {
+    const canvas = (e.target as Element).closest?.<HTMLElement>(".diagram-ready > .diagram-canvas");
+    if (canvas) openZoom(canvas.parentElement!, doc);
+  };
+  const onKey = (e: KeyboardEvent) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const canvas = (e.target as Element).closest?.<HTMLElement>(".diagram-ready > .diagram-canvas");
+    if (!canvas || e.target !== canvas) return;
+    e.preventDefault();
+    openZoom(canvas.parentElement!, doc);
+  };
+  doc.addEventListener("click", onClick);
+  doc.addEventListener("keydown", onKey);
+
   // Printing shows everything, including diagrams the reader never scrolled to.
   window.addEventListener("beforeprint", () => figures.filter(f => !drawn.has(f)).forEach(show));
 
@@ -87,10 +169,14 @@ export function initDiagrams(doc: Document = document): () => void {
   const themeWatcher = new MutationObserver(() => {
     if (root.dataset.theme === theme) return;
     theme = root.dataset.theme;
+    doc.querySelector<HTMLDialogElement>("dialog.diagram-zoom")?.remove();
     for (const f of drawn) enqueue(f);
   });
   themeWatcher.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
   return () => {
+    doc.removeEventListener("click", onClick);
+    doc.removeEventListener("keydown", onKey);
+    doc.querySelector("dialog.diagram-zoom")?.remove();
     themeWatcher.disconnect();
     observer?.disconnect();
   };
