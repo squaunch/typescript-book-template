@@ -12,6 +12,10 @@ export interface Features {
   runnable: boolean;
   /** Full-text search. */
   search: boolean;
+  /** `$…$` and `$$…$$` maths, rendered with KaTeX at build time. */
+  math: boolean;
+  /** ```mermaid diagrams, drawn in the browser on the pages that have one. */
+  diagrams: boolean;
 }
 
 export interface BookConfig {
@@ -126,6 +130,8 @@ export function resolveConfig(config: BookConfig, root: string): ResolvedConfig 
       badges: true,
       runnable: true,
       search: true,
+      math: true,
+      diagrams: true,
       ...config.features,
     },
     quiz: { fullscreen: true, cacheAnswers: true, ...config.quiz },

@@ -26,6 +26,9 @@ to build your own interactive elements.
 12. [Build, preview, test, deploy](#12-build-preview-test-deploy)
 13. [Coming from the mdBook version](#13-coming-from-the-mdbook-version)
 14. [Checklist for a new book](#14-checklist-for-a-new-book)
+15. [Maths (KaTeX)](#15-maths-katex)
+16. [Diagrams (Mermaid)](#16-diagrams-mermaid)
+17. [Performance: what loads where, and how to measure](#17-performance-what-loads-where-and-how-to-measure)
 
 ---
 
@@ -96,15 +99,18 @@ web-highlighter, vitest) is an npm dependency.
 │   ├── markdown.ts           # markdown-it setup: code blocks, heading ids, .md→.html links
 │   ├── layout.ts             # Page HTML: sidebar, top bar, search box, prev/next
 │   ├── search.ts             # Search index builder
-│   └── plugins/              # include, listing, quiz, notes, runnable
+│   └── plugins/              # include, listing, quiz, notes, runnable, math, diagram
 ├── client/                   # Browser code, bundled by esbuild
-│   ├── index.ts              # Entry: starts each enabled feature
+│   ├── index.ts              # Entry for book.js (every page): chrome, search, badges
+│   ├── entries/              # Entries for quiz.js and runnable.js (only pages that use them)
+│   ├── diagrams.ts           # Entry for the Mermaid bundle (only pages with a diagram)
 │   ├── chrome.ts             # Sidebar, themes, ←/→ navigation, Copy buttons
 │   ├── search.ts, quiz.ts, badges.ts, runnable.ts
 │   ├── feedback/             # Highlights + notes (separate bundle)
 │   └── styles/               # CSS. theme.css holds every color variable
 ├── shared/                   # Quiz data types + runtime type guards, used by engine and client
 ├── scripts/check-links.ts    # Internal link checker for the built book
+├── scripts/bench.ts          # Build-time and page-weight benchmark on a generated book
 ├── theme/                    # Badge icons, favicon
 └── tests/                    # vitest: parser, plugins, client logic, full builds
 ```
@@ -159,6 +165,8 @@ the build creates it containing just a heading.
   from the output. `{{#quiz}}` and `<Listing>` inside code (fences or inline
   backticks) are also left alone automatically. `{{#include}}` still works
   inside fences, since that's its main use.
+- Maths: `$a^2 + b^2$` inline, `$$ … $$` or a ` ```math ` block for display maths (see §15).
+- Diagrams: a ` ```mermaid ` code block (see §16).
 - Images: `![alt](img/file.svg)` or `<img src="img/file.svg" class="center" width="300">`.
 
 ### 4.3 Renaming pages without breaking links
@@ -519,8 +527,11 @@ npm run check        # all of the above + internal link check of book/
   a reminder).
 - If a build fails in dev mode, the error is printed and the last good output
   stays up.
+- In dev mode only the pages you changed are rendered again; the log line
+  says how many (`Rebuilt 120 pages in 60 ms (1 re-rendered)`). See §17.
 - The tests (`tests/`) cover the SUMMARY parser, every plugin, quiz
-  validation, the quiz UI in a simulated DOM, search ranking, and full builds.
+  validation, the quiz UI in a simulated DOM, search ranking, maths, diagrams,
+  incremental rebuilds and full builds.
   Add tests when you add plugins.
 - `scripts/check-links.ts` checks every internal link, anchor and asset in
   `book/`.
@@ -576,3 +587,124 @@ moves across unchanged.
 - [ ] Update `README.md`, `COPYRIGHT` and the licenses for your content.
       The template code stays under MIT/Apache-2.0. Your prose can use any
       license you choose.
+
+---
+
+## 15. Maths (KaTeX)
+
+```markdown
+Inline maths sits in single dollars: $a^2 + b^2 = c^2$.
+
+$$
+\text{recall} = \frac{TP}{TP + FN}
+$$
+```
+
+A fenced block with the language `math` does the same as `$$ … $$`, and is
+easier to read for long formulas:
+
+````markdown
+```math
+\bar{x} = \frac{1}{n} \sum_{i=1}^{n} x_i
+```
+````
+
+**How it works.** `engine/plugins/math.ts` renders every formula with
+[KaTeX](https://katex.org) **during the build**. The page ships finished HTML
+(plus MathML for screen readers), so readers run no maths JavaScript and
+formulas never flash as raw TeX. KaTeX's stylesheet and fonts are copied from
+`node_modules` into `assets/katex/` (no CDN), and only pages that contain
+maths link to them.
+
+**Rules for dollars** (the same as Pandoc's, so prices stay prices):
+
+- The opening `$` must be followed by a non-space, the closing `$` must follow
+  a non-space and must not be followed by a digit. `It costs $5 and $10` is
+  plain text.
+- Write `\$` for a literal dollar sign, inside or outside maths.
+- Dollars inside code (fences or backticks) are never maths.
+
+**Errors.** Invalid TeX stops the build and names the page:
+`src/ch02.md: invalid maths "\frac{1": Expected '}' …`. Fix it like any other
+content error; in dev mode the last good output stays up.
+
+**Display maths** scrolls sideways on narrow screens instead of widening the
+page, and can be focused with the keyboard to scroll it.
+
+**Switch it off** with `features: { math: false }`; dollars are then left alone.
+
+**Test:** `tests/math-diagrams.test.ts`.
+
+---
+
+## 16. Diagrams (Mermaid)
+
+````markdown
+```mermaid How a page is built
+flowchart LR
+  A["Write Markdown"] --> B["Build"]
+  B --> C{"Checks pass?"}
+  C -- yes --> D["Publish"]
+  C -- no --> A
+```
+````
+
+Any [Mermaid](https://mermaid.js.org) diagram type works (flowchart, sequence,
+class, state, mindmap, …). Text after the word `mermaid` becomes the caption.
+
+**How it works.** `engine/plugins/diagram.ts` turns the block into a
+`<figure class="diagram">` that holds the source. The build bundles Mermaid
+from `node_modules` into `assets/diagrams/` (no CDN) as ES modules, and adds
+one small script (about 2 kB) to pages that contain a diagram. That script
+(`client/diagrams.ts`) fetches Mermaid itself only when the first diagram
+comes near the viewport, draws each diagram at that point, and redraws them
+when the reader changes theme (light → `default`, dark → `dark`, sepia →
+`neutral`).
+
+- **No JavaScript, or a syntax error:** the source stays visible as text. For
+  an error, the reason is shown above it.
+- **Printing** draws every diagram first.
+- **Why not at build time?** Mermaid needs a real browser to measure text, so
+  drawing during the build would add a headless-browser dependency to every
+  build and CI run, and the result could not follow the reader's theme.
+  Loading it lazily, only where used, keeps other pages free of it.
+- Bundling Mermaid takes a few hundred milliseconds, so the bundle is cached
+  in `node_modules/.cache/interactive-book/` and reused until Mermaid, esbuild
+  or `client/diagrams.ts` changes.
+
+**Switch it off** with `features: { diagrams: false }`; the block is then
+shown as code.
+
+**Tests:** `tests/math-diagrams.test.ts` (build) and `tests/diagrams-dom.test.ts` (browser side).
+
+---
+
+## 17. Performance: what loads where, and how to measure
+
+| File | Loaded on | Contains |
+| --- | --- | --- |
+| `assets/book.js`, `book.css` | every page | sidebar, themes, search box, badges, copy buttons |
+| `assets/feedback.js` | every page (if `highlights` is on) | highlights and notes |
+| `assets/quiz.js` | pages with a `{{#quiz}}` | the quiz |
+| `assets/runnable.js` | pages with runnable code | the Run button and sandbox |
+| `assets/katex/` | pages with maths | stylesheet and fonts |
+| `assets/diagrams/` | pages with a diagram, on demand | Mermaid, split by diagram type |
+| `assets/search-index.json` | when the reader first opens search | the search index |
+
+The build decides per page by looking at the rendered HTML, so you never list
+anything by hand.
+
+**Rebuilds.** Within one `npm run dev` session the engine keeps each page's
+rendered HTML and search entries, and renders a page again only when its text
+changed. "Text" means the page after includes, listings and quizzes have been
+read in, so editing an included file or a quiz re-renders the pages that use
+it. Bundled client code is reused until a file under `client/` or `shared/`
+changes. If you write a plugin, read files in `preprocess` (as the built-in
+plugins do), not in `postprocess`, so this stays correct.
+
+**Measure before and after you change the engine:**
+
+```bash
+npx tsx scripts/bench.ts 300 5    # 300 generated pages, 5 runs: build times and asset sizes
+```
+

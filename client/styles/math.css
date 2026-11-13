@@ -1,0 +1,75 @@
+/* Maths (KaTeX, rendered at build time) and diagrams (Mermaid). */
+
+.math-block {
+  margin: 1.2em 0;
+  text-align: center;
+}
+
+/* Long formulas scroll sideways instead of widening the page. */
+.math-display {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0.25em 0;
+  border-radius: 4px;
+}
+
+.math-display:focus-visible {
+  outline: 2px solid var(--links);
+  outline-offset: 2px;
+}
+
+.math-display > .katex-display {
+  margin: 0;
+}
+
+.content .katex {
+  font-size: 1.1em;
+}
+
+figure.diagram {
+  margin: 1.5em 0;
+  text-align: center;
+}
+
+figure.diagram .diagram-canvas {
+  overflow-x: auto;
+}
+
+figure.diagram .diagram-canvas svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Before the diagram is drawn (and when JavaScript is off) the source is shown,
+   in a box about the size the drawing will take, so the page does not jump. */
+figure.diagram .diagram-source {
+  min-height: 8em;
+  margin: 0;
+  text-align: left;
+  font-size: 0.85em;
+  opacity: 0.75;
+}
+
+figure.diagram.diagram-ready .diagram-source {
+  display: none;
+}
+
+figure.diagram.diagram-error .diagram-canvas {
+  color: var(--warning-border, #c00);
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+
+figure.diagram figcaption {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  opacity: 0.8;
+}
+
+@media print {
+  figure.diagram,
+  .math-block {
+    break-inside: avoid;
+  }
+}

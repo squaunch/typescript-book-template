@@ -19,6 +19,8 @@ const ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"'
 export function htmlToText(html: string): string {
   return html
     .replace(/<(script|style|noscript)\b[\s\S]*?<\/\1>/gi, " ")
+    // Rendered maths is layout markup, not prose.
+    .replace(/<!--math-->[\s\S]*?<!--\/math-->/g, " ")
     // Block-level tags separate words; inline tags (a, em, code, …) don't.
     .replace(/<\/?(p|div|h[1-6]|li|ul|ol|pre|section|figure|figcaption|table|tr|td|th|br|blockquote)\b[^>]*>/gi, " ")
     .replace(/<[^>]+>/g, "")
